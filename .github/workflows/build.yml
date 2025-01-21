@@ -40,15 +40,11 @@ jobs:
         (Get-Content buildozer.spec).replace('# (str) Presplash image filename', 'presplash.filename = %(source.include_exts)') | Set-Content buildozer.spec
         (Get-Content buildozer.spec).replace('# (list) Permissions', 'permissions = INTERNET') | Set-Content buildozer.spec
 
-    - name: Patch Buildozer Script to Skip Prompt
-      run: |
-        (Get-Content C:\hostedtoolcache\windows\Python\3.x.x64\Lib\site-packages\buildozer\__init__.py) `
-          -replace 'input\(.*\)', 'print("Skipping prompt in non-interactive environment")' | `
-          Set-Content C:\hostedtoolcache\windows\Python\3.x.x64\Lib\site-packages\buildozer\__init__.py
-
     - name: Build APK
+      env:
+        BUILDOZER_IGNORE_ERRORS: 1  # Set environment variable to bypass the prompt
       run: |
-        set BUILD_ROOT_WARNING=1
+        set BUILDOZER_IGNORE_ERRORS=1
         buildozer -v android debug
         dir bin
 
