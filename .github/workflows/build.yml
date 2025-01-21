@@ -41,12 +41,15 @@ jobs:
         (Get-Content buildozer.spec).replace('# (list) Permissions', 'permissions = INTERNET') | Set-Content buildozer.spec
 
     - name: Build APK
+      env:
+        BUILD_ROOT_WARNING: 1  # Set environment variable to bypass the prompt
       run: |
+        set BUILD_ROOT_WARNING=1
         buildozer -v android debug
         dir bin
 
     - name: Upload APK
-      uses: actions/upload-artifact@v4
+      uses: actions/upload-artifact@v2
       with:
         name: app-debug.apk
         path: bin/*.apk
