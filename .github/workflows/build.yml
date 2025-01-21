@@ -27,6 +27,13 @@ jobs:
         choco install -y android-sdk
         choco install -y openjdk8
 
+    - name: Patch Buildozer Script to Skip Root Check
+      run: |
+         $content = Get-Content C:\hostedtoolcache\windows\Python\3.12.8\x64\Lib\site-packages\buildozer\__init__.py
+         $content = $content -replace 'input\(.+\)', 'print("Running as root in non-interactive mode")'
+          Set-Content C:\hostedtoolcache\windows\Python\3.12.8\x64\Lib\site-packages\buildozer\__init__.py -Value $content
+  
+
     - name: Initialize Buildozer
       env:
         BUILDOZER_IGNORE_ERRORS: 1  # Set environment variable to bypass the prompt
