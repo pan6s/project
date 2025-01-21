@@ -23,20 +23,32 @@ jobs:
         sudo apt-get update
         sudo apt-get install -y git zip openjdk-8-jdk python3-pip autoconf libtool pkg-config zlib1g-dev libncurses5-dev libncursesw5-dev cmake libffi-dev
         pip3 install --user --upgrade cython virtualenv
-        sudo apt-get update  # Update the package list
-        sudo apt-get install -y libtinfo5
+        sudo apt-get install -y libtinfo5 || true  # Add the libtinfo5 package
 
     - name: Install Buildozer
       run: |
         pip3 install buildozer
 
+    - name: Initialize Buildozer
+      run: |
+        buildozer init
+
+    - name: Modify Buildozer Spec File
+      run: |
+        sed -i 's/# (str) Title of your application/title = MyKivyApp/' buildozer.spec
+        sed -i 's/# (str) Package name/package.name = mykivyapp/' buildozer.spec
+        sed -i 's/# (str) Source code URL (default: None)/source.url = https:\/\/github.com\/<your-repo>/' buildozer.spec
+        sed -i 's/# (list) Application requirements/requirements = python3,kivy/' buildozer.spec
+        sed -i 's/# (str) Presplash image filename/presplash.filename = %(source.include_exts)/' buildozer.spec
+        sed -i 's/# (list) Permissions/permissions = INTERNET/' buildozer.spec
+
     - name: Build APK
       run: |
         buildozer -v android debug
-        # Ensure the APK is generated in the bin directory
+        ls bin/
 
     - name: Upload APK
       uses: actions/upload-artifact@v4
       with:
         name: app-debug.apk
-        path: bin/
+        path: bin/*.apk
