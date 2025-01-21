@@ -29,42 +29,20 @@ jobs:
 
     - name: Patch Buildozer Script to Skip Root Check
       run: |
-         $content = Get-Content C:\hostedtoolcache\windows\Python\3.12.8\x64\Lib\site-packages\buildozer\__init__.py
-         $content = $content -replace 'input\(.+\)', 'print("Running as root in non-interactive mode")'
-          Set-Content C:\hostedtoolcache\windows\Python\3.12.8\x64\Lib\site-packages\buildozer\__init__.py -Value $content
-  
-
-    - name: Initialize Buildozer
-      env:
-        BUILDOZER_IGNORE_ERRORS: 1  # Set environment variable to bypass the prompt
-      run: |
-        buildozer init
-
-    - name: Modify Buildozer Spec File
-      run: |
-        (Get-Content buildozer.spec).replace('# (str) Title of your application', 'title = MyKivyApp') | Set-Content buildozer.spec
-        (Get-Content buildozer.spec).replace('# (str) Package name', 'package.name = mykivyapp') | Set-Content buildozer.spec
-        (Get-Content buildozer.spec).replace('# (str) Source code URL (default: None)', 'source.url = https://github.com/<your-repo>') | Set-Content buildozer.spec
-        (Get-Content buildozer.spec).replace('# (list) Application requirements', 'requirements = python3,kivy') | Set-Content buildozer.spec
-        (Get-Content buildozer.spec).replace('# (str) Presplash image filename', 'presplash.filename = %(source.include_exts)') | Set-Content buildozer.spec
-        (Get-Content buildozer.spec).replace('# (list) Permissions', 'permissions = INTERNET') | Set-Content buildozer.spec
-
-    - name: Patch Buildozer Script to Skip Prompt
-      run: |
-        (Get-Content C:\hostedtoolcache\windows\Python\3.x.x64\Lib\site-packages\buildozer\__init__.py) `
-          -replace 'input\(.*\)', 'print("Skipping prompt in non-interactive environment")' | `
-          Set-Content C:\hostedtoolcache\windows\Python\3.x.x64\Lib\site-packages\buildozer\__init__.py
+        $content = Get-Content C:\hostedtoolcache\windows\Python\3.12.8\x64\Lib\site-packages\buildozer\__init__.py
+        $content = $content -replace 'input\(.+\)', 'print("Running as root in non-interactive mode")'
+        Set-Content C:\hostedtoolcache\windows\Python\3.12.8\x64\Lib\site-packages\buildozer\__init__.py -Value $content
 
     - name: Build APK
       env:
-        BUILDOZER_IGNORE_ERRORS: 1  # Set environment variable to bypass the prompt
+        BUILDOZER_IGNORE_ERRORS: 1
       run: |
         set BUILDOZER_IGNORE_ERRORS=1
         buildozer -v android debug
         dir bin
 
     - name: Upload APK
-      uses: actions/upload-artifact@v4
+      uses: actions/upload-artifact@v2
       with:
         name: app-debug.apk
         path: bin/*.apk
