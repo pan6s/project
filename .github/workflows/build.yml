@@ -21,8 +21,10 @@ jobs:
     - name: Install dependencies
       run: |
         sudo apt-get update
-        sudo apt-get install -y git zip openjdk-8-jdk python3-pip autoconf libtool pkg-config zlib1g-dev libncurses5-dev libncursesw5-dev libtinfo5 cmake libffi-dev
+        sudo apt-get install -y git zip openjdk-8-jdk python3-pip autoconf libtool pkg-config zlib1g-dev libncurses5-dev libncursesw5-dev cmake libffi-dev
         pip3 install --user --upgrade cython virtualenv
+        sudo apt-get update  # Update the package list
+        sudo apt-get install -y libtinfo5
 
     - name: Install Buildozer
       run: |
