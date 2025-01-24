@@ -43,9 +43,6 @@ requirements = python3,kivy
 # Sets custom source for any requirements with recipes
 # requirements.source.kivy = ../../kivy
 
-(str) Presplash of the application
-presplash.filename= False
-
 # (str) Icon of the application
 #icon.filename = %(source.dir)s/data/icon.png
 
