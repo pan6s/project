@@ -7,7 +7,7 @@ title = Finger Exercise
 package.name = Best app
 
 # (str) Package domain (needed for android/ios packaging)
-package.domain = heool.pann.org
+package.domain = org.heool.pann
 
 # (str) Source code where the main.py live
 source.dir = .
