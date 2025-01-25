@@ -1,13 +1,13 @@
 [app]
 
 # (str) Title of your application
-title = My Application
+title = Finger Exercise
 
 # (str) Package name
-package.name = myapp
+package.name = Best app
 
 # (str) Package domain (needed for android/ios packaging)
-package.domain = org.test
+package.domain = heool.pann.org
 
 # (str) Source code where the main.py live
 source.dir = .
@@ -42,6 +42,9 @@ requirements = python3,kivy
 # (str) Custom source folders for requirements
 # Sets custom source for any requirements with recipes
 # requirements.source.kivy = ../../kivy
+
+# (str) presplash of the application
+#presplash.filename = "C:\Users\Admin\Desktop\presplash.jpg"
 
 # (str) Icon of the application
 #icon.filename = %(source.dir)s/data/icon.png
